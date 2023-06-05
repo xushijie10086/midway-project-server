@@ -2,7 +2,7 @@
  * @Author: xushijie xushijie@yunlizhihui.com
  * @Date: 2023-06-02 09:14:03
  * @LastEditors: xushijie xushijie@yunlizhihui.com
- * @LastEditTime: 2023-06-05 16:12:01
+ * @LastEditTime: 2023-06-05 17:13:50
  * @FilePath: \midway-project\src\common\base.service.ts
  * @Description: 描述一下
  *
@@ -44,6 +44,10 @@ export abstract class BaseService<T extends BaseEntity> {
 
   async page(page: number = 0, pageSize: number = 10, where?: FindOptionsWhere<T>) {
     const order: any = { createDate: 'desc' };
+    console.log('-=======================================================');
+    console.log(where)
+    console.log('-=======================================================');
+    
     const [data, total] = await this.getModel().findAndCount({
       where,
       order,

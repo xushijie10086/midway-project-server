@@ -2,7 +2,7 @@
  * @Author: xushijie xushijie@yunlizhihui.com
  * @Date: 2023-06-02 10:16:39
  * @LastEditors: xushijie xushijie@yunlizhihui.com
- * @LastEditTime: 2023-06-05 16:06:18
+ * @LastEditTime: 2023-06-05 17:20:41
  * @FilePath: \midway-project\src\module\user\controller\user.ts
  * @Description: 描述一下
  *
@@ -22,6 +22,8 @@ import {
 } from '@midwayjs/decorator';
 import { UserDTO } from '../dto/user';
 import { UserService } from '../service/user';
+import { FindOptionsWhere, Like } from 'typeorm';
+import { UserEntity } from '../entity/user';
 
 @Provide()
 @Controller('/user')
@@ -36,7 +38,7 @@ export class UserController {
 
   @Put('/', { description: '编辑' })
   async edit(@Body(ALL) data: UserDTO) {
-    const { data: data2} = await this.userService.getById(data.id);
+    const { data: data2 } = await this.userService.getById(data.id);
     // update
     data2.email = data.email;
     data2.userName = data.userName;
@@ -56,8 +58,20 @@ export class UserController {
   }
 
   @Get('/page', { description: '分页查询' })
-  async page(@Query('page') page: number, @Query('size') size: number) {
-    return await this.userService.page(page, size);
+  async page(
+    @Query('page') page: number,
+    @Query('size') size: number,
+    @Query('nickName') nickName: string,
+    @Query('userName') userName: string,
+    @Query('phone') phone: string
+  ) {
+    const query: FindOptionsWhere<UserEntity> = {};
+
+    if (phone) query.phone = Like(`%${phone}%`);
+    if (nickName) query.nickName = Like(`%${nickName}%`);
+    if (userName) query.userName = Like(`%${userName}%`);
+
+    return await this.userService.page(page, size, query);
   }
 
   @Get('/list', { description: '查询全部' })
