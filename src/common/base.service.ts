@@ -2,7 +2,7 @@
  * @Author: xushijie xushijie@yunlizhihui.com
  * @Date: 2023-06-02 09:14:03
  * @LastEditors: xushijie xushijie@yunlizhihui.com
- * @LastEditTime: 2023-06-02 15:26:30
+ * @LastEditTime: 2023-06-05 16:12:01
  * @FilePath: \midway-project\src\common\base.service.ts
  * @Description: 描述一下
  *
@@ -19,12 +19,12 @@ export abstract class BaseService<T extends BaseEntity> {
 
   abstract getModel(): Repository<T>;
 
-  async create(entity: T) {
+  async create(entity: T): Promise<any> {
     const data = await this.getModel().save(entity);
     return BaseResponse.ok(data);
   }
 
-  async edit(entity: T) {
+  async edit(entity: T): Promise<any> {
     const data = await this.getModel().save(entity);
     return BaseResponse.ok(data);
   }
@@ -42,8 +42,8 @@ export abstract class BaseService<T extends BaseEntity> {
     return BaseResponse.ok(data);
   }
 
-  async page(page: number, pageSize: number, where?: FindOptionsWhere<T>) {
-    const order: any = { create_time: 'desc' };
+  async page(page: number = 0, pageSize: number = 10, where?: FindOptionsWhere<T>) {
+    const order: any = { createDate: 'desc' };
     const [data, total] = await this.getModel().findAndCount({
       where,
       order,
@@ -55,7 +55,7 @@ export abstract class BaseService<T extends BaseEntity> {
   }
 
   async list(where?: FindOptionsWhere<T>) {
-    const order: any = { create_time: 'desc' };
+    const order: any = { createDate: 'desc' };
     const data = await this.getModel().find({
       where,
       order,

@@ -2,7 +2,7 @@
  * @Author: xushijie xushijie@yunlizhihui.com
  * @Date: 2023-06-01 09:15:10
  * @LastEditors: xushijie xushijie@yunlizhihui.com
- * @LastEditTime: 2023-06-02 10:45:12
+ * @LastEditTime: 2023-06-05 09:14:57
  * @FilePath: \midway-project\src\config\config.default.ts
  * @Description: 描述一下
  *
@@ -28,23 +28,40 @@ export default {
         synchronize: true, // 如果第一次使用，不存在表，有同步的需求可以写 true，注意会丢数据
         logging: true,
         // 扫描entity文件夹
-        entities: ['**/entity/*{.ts,.js}'],
+        entities: ['entity', '**/entity/*{.ts,.js}'],
       },
     },
   },
   redis: {
-    client: {
-      port: 6379,
-      host: 'localhost',
-      password: '123456',
-      db: 0,
+    clients: {
+      default1: {
+        port: 6379,
+        host: 'localhost',
+        password: '123456',
+        db: 0,
+      },
+      // client2: {
+      //   port: 6380,
+      //   host: 'localhost',
+      //   password: '123456',
+      //   db: 0,
+      // },
     },
+    defaultClientName: 'default1',
   },
   i18n: {
-    localeTable:{
+    localeTable: {
       en_US: require('../locales/en_US.json'),
       zh_CN: require('../locales/zh_CN.json'),
     },
-    defaultLocale: 'zh_CN'
-  }
+    defaultLocale: 'zh_CN',
+  },
+  swagger: {
+    swaggerPath: 'doc',
+  },
+  validate: {
+    validationOptions: {
+      allowUnknown: true,
+    },
+  },
 } as MidwayConfig;

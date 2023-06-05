@@ -1,23 +1,23 @@
 export class BaseResponse<T> {
   code: number;
-  msg: string;
+  message: string;
   data: T;
 
-  constructor(data: T, code: number, msg: string) {
+  constructor(data: T, code: number, message: string) {
     this.code = code;
     this.data = data;
-    this.msg = msg;
+    this.message = message;
   }
 
-  static create<T>(data: T, code: number, msg: string) {
-    return new BaseResponse(data, code, msg);
+  static create<T>(data: T, code: number, message: string) {
+    return new BaseResponse(data, code, message);
   }
 
   static ok<T>(data: T) {
     return BaseResponse.create(data, 0, 'OK');
   }
 
-  static error(msg: string, code: number) {
-    return BaseResponse.create(null, code, msg);
+  static error(message: string, code: number) {
+    return BaseResponse.create(null, code, message);
   }
 }

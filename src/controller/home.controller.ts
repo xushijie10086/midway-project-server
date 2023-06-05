@@ -2,7 +2,7 @@
  * @Author: xushijie xushijie@yunlizhihui.com
  * @Date: 2023-06-01 09:15:10
  * @LastEditors: xushijie xushijie@yunlizhihui.com
- * @LastEditTime: 2023-06-02 10:25:52
+ * @LastEditTime: 2023-06-05 09:18:03
  * @FilePath: \midway-project\src\controller\home.controller.ts
  * @Description: 描述一下
  *
@@ -10,7 +10,7 @@
 import { Controller, Get, Inject, Post, Body } from '@midwayjs/core';
 import { InjectEntityModel } from '@midwayjs/typeorm';
 import { Repository } from 'typeorm';
-import { RedisService } from '@midwayjs/redis';
+import { RedisService, RedisServiceFactory } from '@midwayjs/redis';
 import { MidwayI18nService } from '@midwayjs/i18n';
 import { CommonError } from '../common/common.error';
 import { ILogger } from '@midwayjs/logger';
@@ -26,6 +26,9 @@ export class HomeController {
   redisService: RedisService;
 
   @Inject()
+  redisFactory: RedisServiceFactory;
+
+  @Inject()
   i18nService: MidwayI18nService;
 
   @Inject()
@@ -34,6 +37,10 @@ export class HomeController {
   @Get('/')
   async home(): Promise<string> {
     const users = await this.userModel.find();
+
+    // const redisClient2 = this.redisFactory.get('client2')
+    // console.log(redisClient2);
+
     // return userList;
     await this.redisService.set('user', users.map(x => x.id).toString());
     const u = this.redisService.get('user');

@@ -2,7 +2,7 @@
  * @Author: xushijie xushijie@yunlizhihui.com
  * @Date: 2023-06-02 10:16:39
  * @LastEditors: xushijie xushijie@yunlizhihui.com
- * @LastEditTime: 2023-06-02 15:30:15
+ * @LastEditTime: 2023-06-05 16:06:18
  * @FilePath: \midway-project\src\module\user\controller\user.ts
  * @Description: 描述一下
  *
@@ -36,8 +36,11 @@ export class UserController {
 
   @Put('/', { description: '编辑' })
   async edit(@Body(ALL) data: UserDTO) {
-    const { data: data2 } = await this.userService.getById(data.id);
+    const { data: data2} = await this.userService.getById(data.id);
     // update
+    data2.email = data.email;
+    data2.userName = data.userName;
+    data2.phone = data.phone;
     return await this.userService.edit(data2);
   }
 
