@@ -2,8 +2,8 @@
  * @Author: xushijie xushijie@yunlizhihui.com
  * @Date: 2023-06-01 09:15:10
  * @LastEditors: xushijie xushijie@yunlizhihui.com
- * @LastEditTime: 2023-06-02 10:22:31
- * @FilePath: \midway-project\src\configuration.ts
+ * @LastEditTime: 2023-06-05 18:18:12
+ * @FilePath: \fluxy-admin\midway-project-server\src\configuration.ts
  * @Description: 描述一下
  *
  */
@@ -21,6 +21,7 @@ import * as swagger from '@midwayjs/swagger';
 import * as i18n from '@midwayjs/i18n';
 import { ValidateErrorFilter } from './filter/validate.filter';
 import { CommonErrorFilter } from './filter/common.filter';
+import * as captcha from '@midwayjs/captcha';
 @Configuration({
   imports: [
     koa,
@@ -28,6 +29,7 @@ import { CommonErrorFilter } from './filter/common.filter';
     orm,
     redis,
     i18n,
+    captcha,
     {
       component: swagger,
       enabledEnvironment: ['local'],

@@ -2,13 +2,14 @@
  * @Author: xushijie xushijie@yunlizhihui.com
  * @Date: 2023-06-01 09:15:10
  * @LastEditors: xushijie xushijie@yunlizhihui.com
- * @LastEditTime: 2023-06-05 09:14:57
- * @FilePath: \midway-project\src\config\config.default.ts
+ * @LastEditTime: 2023-06-06 11:22:27
+ * @FilePath: \fluxy-admin\midway-project-server\src\config\config.default.ts
  * @Description: 描述一下
  *
  */
 import { MidwayConfig } from '@midwayjs/core';
-
+import { TokenConfig } from '../interface/token.config';
+// import * as redisStore from 'cache-manager-ioredis';
 export default {
   // use for cookie sign key, should change to your own and keep security
   keys: '1685582110735_9773',
@@ -63,5 +64,35 @@ export default {
     validationOptions: {
       allowUnknown: true,
     },
+  },
+  token: {
+    expire: 60 * 60 * 2, // 2小时
+    refreshExpire: 60 * 60 * 24 * 15, // 15天
+  } as TokenConfig,
+  // cache: {
+  //   store: redisStore,
+  //   options: {
+  //     host: 'localhost', // default value
+  //     port: 6379, // default value
+  //     password: '',
+  //     db: 0,
+  //     keyPrefix: 'cache:',
+  //     ttl: 100,
+  //   },
+  // },
+  captcha: {
+    default: {
+      size: 4,
+      noise: 1,
+      width: 120,
+      height: 40,
+    },
+    image: {
+      type: 'mixed',
+    },
+    formula: {},
+    text: {},
+    expirationTime: 3600,
+    idPrefix: 'captcha',
   },
 } as MidwayConfig;
