@@ -7,7 +7,6 @@ import { omit } from 'lodash';
 import { UserVO } from '../vo/user';
 import * as bcrypt from 'bcryptjs';
 import { R } from '../../../common/base.error.util';
-import { BaseResponse } from '../../../common/base.response';
 
 @Provide()
 export class UserService extends BaseService<UserEntity> {
@@ -35,7 +34,7 @@ export class UserService extends BaseService<UserEntity> {
     await this.userModel.save(entity);
     // 把entity中的password移除返回给前端
     const data = omit(entity, ['password']) as UserVO
-    return BaseResponse.ok(data);
+    return data;
   }
 
   async edit(entity: UserEntity): Promise<UserVO> {
@@ -53,6 +52,6 @@ export class UserService extends BaseService<UserEntity> {
 
     const data = omit(entity, ['password']) as UserVO
     
-    return BaseResponse.ok(data);
+    return data;
   }
 }

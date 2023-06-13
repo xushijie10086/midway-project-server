@@ -27,15 +27,15 @@ export class $1Controller {
 
   @Put('/', { description: '编辑' })
   async edit(@Body(ALL) data: $1DTO) {
-    const { data: data2 } = await this.$3Service.getById(data.id);
+    const $3 = await this.$3Service.getById(data.id);
     // update
-    return await this.$3Service.edit(data2);
+    return await this.$3Service.edit($3);
   }
 
   @Del('/:id', { description: '删除' })
   async remove(@Param('id') id: number) {
-    const { data } = await this.$3Service.getById(id);
-    return await this.$3Service.remove(data);
+    const $3 = await this.$3Service.getById(id);
+    await this.$3Service.remove($3);
   }
 
   @Get('/:id', { description: '根据id查询' })

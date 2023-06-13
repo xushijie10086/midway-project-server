@@ -2,8 +2,8 @@
  * @Author: xushijie xushijie@yunlizhihui.com
  * @Date: 2023-06-02 10:16:39
  * @LastEditors: xushijie xushijie@yunlizhihui.com
- * @LastEditTime: 2023-06-05 17:20:41
- * @FilePath: \midway-project\src\module\user\controller\user.ts
+ * @LastEditTime: 2023-06-13 11:20:52
+ * @FilePath: \midway-project-server\src\module\user\controller\user.ts
  * @Description: 描述一下
  *
  */
@@ -38,18 +38,21 @@ export class UserController {
 
   @Put('/', { description: '编辑' })
   async edit(@Body(ALL) data: UserDTO) {
-    const { data: data2 } = await this.userService.getById(data.id);
+    const user = await this.userService.getById(data.id);
     // update
-    data2.email = data.email;
-    data2.userName = data.userName;
-    data2.phone = data.phone;
-    return await this.userService.edit(data2);
+    user.email = data.email;
+    user.nickName = data.nickName;
+    user.phone = data.phone;
+    user.userName = data.userName;
+    user.avatar = data.avatar;
+    user.sex = data.sex;
+    return await this.userService.edit(user);
   }
 
   @Del('/:id', { description: '删除' })
   async remove(@Param('id') id: number) {
-    const { data } = await this.userService.getById(id);
-    return await this.userService.remove(data);
+    const user = await this.userService.getById(id);
+    return await this.userService.remove(user);
   }
 
   @Get('/:id', { description: '根据id查询' })

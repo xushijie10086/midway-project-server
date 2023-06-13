@@ -2,16 +2,15 @@
  * @Author: xushijie xushijie@yunlizhihui.com
  * @Date: 2023-06-02 09:14:03
  * @LastEditors: xushijie xushijie@yunlizhihui.com
- * @LastEditTime: 2023-06-05 17:13:50
- * @FilePath: \midway-project\src\common\base.service.ts
+ * @LastEditTime: 2023-06-13 15:51:20
+ * @FilePath: \midway-project-server\src\common\base.service.ts
  * @Description: 描述一下
- *
+ * 
  */
-import { Context } from '@midwayjs/koa';
-import { BaseEntity } from './base.entity';
 import { Inject } from '@midwayjs/decorator';
+import { Context } from '@midwayjs/koa';
 import { FindOptionsWhere, Repository } from 'typeorm';
-import { BaseResponse } from './base.response';
+import { BaseEntity } from './base.entity';
 
 export abstract class BaseService<T extends BaseEntity> {
   @Inject()
@@ -20,34 +19,27 @@ export abstract class BaseService<T extends BaseEntity> {
   abstract getModel(): Repository<T>;
 
   async create(entity: T): Promise<any> {
-    const data = await this.getModel().save(entity);
-    return BaseResponse.ok(data);
+    return await this.getModel().save(entity);
   }
 
   async edit(entity: T): Promise<any> {
-    const data = await this.getModel().save(entity);
-    return BaseResponse.ok(data);
+    return await this.getModel().save(entity);
   }
 
   async remove(entity: T) {
-    const data = await this.getModel().remove(entity);
-    return BaseResponse.ok(data);
+    await this.getModel().remove(entity);
   }
 
-  async getById(id: number) {
-    const data = await this.getModel()
+  async getById(id: number): Promise<T> {
+    return await this.getModel()
       .createQueryBuilder('model')
       .where('model.id = :id', { id })
       .getOne();
-    return BaseResponse.ok(data);
   }
 
-  async page(page: number = 0, pageSize: number = 10, where?: FindOptionsWhere<T>) {
+  async page(page = 0, pageSize = 10, where?: FindOptionsWhere<T>) {
     const order: any = { createDate: 'desc' };
-    console.log('-=======================================================');
-    console.log(where)
-    console.log('-=======================================================');
-    
+
     const [data, total] = await this.getModel().findAndCount({
       where,
       order,
@@ -55,7 +47,7 @@ export abstract class BaseService<T extends BaseEntity> {
       take: pageSize,
     });
 
-    return BaseResponse.ok({ list: data, total, page, pageSize });
+    return { data: data.map(entity => entity.toVO()), total };
   }
 
   async list(where?: FindOptionsWhere<T>) {
@@ -64,6 +56,7 @@ export abstract class BaseService<T extends BaseEntity> {
       where,
       order,
     });
-    return BaseResponse.ok(data);
+
+    return data;
   }
 }

@@ -2,8 +2,8 @@
  * @Author: xushijie xushijie@yunlizhihui.com
  * @Date: 2023-06-01 09:15:10
  * @LastEditors: xushijie xushijie@yunlizhihui.com
- * @LastEditTime: 2023-06-05 18:18:12
- * @FilePath: \fluxy-admin\midway-project-server\src\configuration.ts
+ * @LastEditTime: 2023-06-13 09:56:23
+ * @FilePath: \midway-project-server\src\configuration.ts
  * @Description: 描述一下
  *
  */
@@ -19,9 +19,10 @@ import * as orm from '@midwayjs/typeorm';
 import * as redis from '@midwayjs/redis';
 import * as swagger from '@midwayjs/swagger';
 import * as i18n from '@midwayjs/i18n';
+import * as cache from '@midwayjs/cache';
 import { ValidateErrorFilter } from './filter/validate.filter';
 import { CommonErrorFilter } from './filter/common.filter';
-import * as captcha from '@midwayjs/captcha';
+import { AuthMiddleWare } from './middleware/auth.middleware';
 @Configuration({
   imports: [
     koa,
@@ -29,7 +30,7 @@ import * as captcha from '@midwayjs/captcha';
     orm,
     redis,
     i18n,
-    captcha,
+    cache,
     {
       component: swagger,
       enabledEnvironment: ['local'],
@@ -47,7 +48,7 @@ export class ContainerLifeCycle {
 
   async onReady() {
     // add middleware
-    this.app.useMiddleware([ReportMiddleware]);
+    this.app.useMiddleware([ReportMiddleware, AuthMiddleWare]);
     // add filter
     this.app.useFilter([
       ValidateErrorFilter,

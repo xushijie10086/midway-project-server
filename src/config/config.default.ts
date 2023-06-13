@@ -2,14 +2,15 @@
  * @Author: xushijie xushijie@yunlizhihui.com
  * @Date: 2023-06-01 09:15:10
  * @LastEditors: xushijie xushijie@yunlizhihui.com
- * @LastEditTime: 2023-06-06 11:22:27
- * @FilePath: \fluxy-admin\midway-project-server\src\config\config.default.ts
+ * @LastEditTime: 2023-06-13 14:29:32
+ * @FilePath: \midway-project-server\src\config\config.default.ts
  * @Description: 描述一下
  *
  */
 import { MidwayConfig } from '@midwayjs/core';
 import { TokenConfig } from '../interface/token.config';
-// import * as redisStore from 'cache-manager-ioredis';
+import { env } from 'process';
+import * as redisStore from 'cache-manager-ioredis';
 export default {
   // use for cookie sign key, should change to your own and keep security
   keys: '1685582110735_9773',
@@ -34,21 +35,12 @@ export default {
     },
   },
   redis: {
-    clients: {
-      default1: {
-        port: 6379,
-        host: 'localhost',
-        password: '123456',
-        db: 0,
-      },
-      // client2: {
-      //   port: 6380,
-      //   host: 'localhost',
-      //   password: '123456',
-      //   db: 0,
-      // },
+    client: {
+      port: 6379, // Redis port
+      host: env.REDIS_HOST || 'localhost', // Redis host
+      password: env.REDIS_PASSWORD || '',
+      db: 0,
     },
-    defaultClientName: 'default1',
   },
   i18n: {
     localeTable: {
@@ -69,17 +61,17 @@ export default {
     expire: 60 * 60 * 2, // 2小时
     refreshExpire: 60 * 60 * 24 * 15, // 15天
   } as TokenConfig,
-  // cache: {
-  //   store: redisStore,
-  //   options: {
-  //     host: 'localhost', // default value
-  //     port: 6379, // default value
-  //     password: '',
-  //     db: 0,
-  //     keyPrefix: 'cache:',
-  //     ttl: 100,
-  //   },
-  // },
+  cache: {
+    store: redisStore,
+    options: {
+      host: 'localhost', // default value
+      port: 6379, // default value
+       password: env.REDIS_PASSWORD || '',
+      db: 0,
+      keyPrefix: 'cache:',
+      ttl: 100,
+    },
+  },
   captcha: {
     default: {
       size: 4,
