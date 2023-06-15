@@ -2,7 +2,7 @@
  * @Author: xushijie xushijie@yunlizhihui.com
  * @Date: 2023-06-05 18:17:31
  * @LastEditors: xushijie xushijie@yunlizhihui.com
- * @LastEditTime: 2023-06-13 15:49:21
+ * @LastEditTime: 2023-06-14 09:09:28
  * @FilePath: \midway-project-server\src\module\auth\service\auth.ts
  * @Description: 描述一下
  *
@@ -80,7 +80,7 @@ export class AuthService {
       `refreshToken:${refreshToken.refreshToken}`
     );
     // 检查refreshToken是否已失效
-    if (!userId) throw R.error('refreshToken已失效');
+    if (!userId) throw R.error('refreshToken已失效,请重新登录');
 
     // 没有失效生成新的token
     const { expire } = this.tokenConfig;

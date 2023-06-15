@@ -2,7 +2,7 @@
  * @Author: xushijie xushijie@yunlizhihui.com
  * @Date: 2023-06-05 18:17:31
  * @LastEditors: xushijie xushijie@yunlizhihui.com
- * @LastEditTime: 2023-06-13 09:47:29
+ * @LastEditTime: 2023-06-14 09:03:41
  * @FilePath: \midway-project-server\src\module\auth\controller\auth.ts
  * @Description: 描述一下
  *
@@ -93,6 +93,7 @@ export class AuthController {
   }
 
   @Post('/refresh/token', { description: '刷新token' })
+  @NotLogin()
   async refreshToken(@Body(ALL) data: RefreshTokenDTO) {
     if (!data.refreshToken) {
       throw R.error('用户凭证已过期，请重新登录！');
