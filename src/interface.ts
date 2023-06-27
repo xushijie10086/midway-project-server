@@ -10,3 +10,22 @@ declare module '@midwayjs/core' {
     token: string;
   }
 }
+
+export interface MinioConfig {
+  endPoint: string;
+  port: number;
+  useSSL: boolean;
+  accessKey: string;
+  secretKey: string;
+  bucketName: string;
+}
+
+export interface MailConfig {
+  host: string;
+  port: number;
+  secure: boolean;
+  auth: {
+    user: string;
+    pass: string;
+  };
+}

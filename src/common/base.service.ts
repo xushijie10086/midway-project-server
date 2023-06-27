@@ -2,7 +2,7 @@
  * @Author: xushijie xushijie@yunlizhihui.com
  * @Date: 2023-06-02 09:14:03
  * @LastEditors: xushijie xushijie@yunlizhihui.com
- * @LastEditTime: 2023-06-13 15:51:20
+ * @LastEditTime: 2023-06-25 16:13:51
  * @FilePath: \midway-project-server\src\common\base.service.ts
  * @Description: 描述一下
  * 
@@ -30,7 +30,7 @@ export abstract class BaseService<T extends BaseEntity> {
     await this.getModel().remove(entity);
   }
 
-  async getById(id: number): Promise<T> {
+  async getById(id: string): Promise<T> {
     return await this.getModel()
       .createQueryBuilder('model')
       .where('model.id = :id', { id })
